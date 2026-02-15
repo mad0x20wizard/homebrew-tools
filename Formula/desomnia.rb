@@ -3,8 +3,8 @@ class Desomnia < Formula
   homepage "https://github.com/mad0x20wizard/Desomnia"
   license "MIT" # <- change if needed
   
-  url "https://github.com/mad0x20wizard/Desomnia-Test/releases/download/v3.0.0-beta11/Desomnia_3.0.0-beta11_macos.zip"
-  sha256 "57e71a27bd95f3cf89a6abccb77ca2f50f84392938f0df2605b65425f9e370b9"
+  url "https://github.com/mad0x20wizard/Desomnia/releases/download/v3.0.0-alpha19/Desomnia_3.0.0-alpha19_macos.zip"
+  sha256 "201305e37bf35c8659e4be2c13e3fff384c8bceb0e99f6d653761a141caf3125"
 
   def install
     arch_dir = Hardware::CPU.arm? ? "arm64" : "x64"
