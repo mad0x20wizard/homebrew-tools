@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os:
-          # - macos-15            # Sequoia
+          - macos-15            # Sequoia
           # - macos-26            # Tahoe
           - ubuntu-24.04-arm    # Linux arm64
           - ubuntu-24.04        # Linux x86_64
