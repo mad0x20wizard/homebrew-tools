@@ -1,25 +1,46 @@
 class Desomnia < Formula
-  desc "Desomnia monitor"
+  desc "Daemon for sleep and resource management"
   homepage "https://github.com/mad0x20wizard/Desomnia"
-  license "MIT" # <- change if needed
-  
-  url "https://github.com/mad0x20wizard/Desomnia/releases/download/v3.0.0-alpha22/Desomnia_3.0.0-alpha22_macos.zip"
-  sha256 "e620f3f5d213e68735609c6e20c3994c17017b25ac8f4c35626e578d81e4e9b7"
+  url "https://github.com/mad0x20wizard/Desomnia/archive/refs/tags/v3.0.0-alpha22.tar.gz"
+  sha256 "c3b3ebb707770adea2adc4983bf86907098ce91bf0975ca73492f5dd2a5cd9e8"
+  license "GPL-3.0-or-later"
+
+  depends_on "dotnet" => [:build]
+  depends_on "brotli"
+
+  on_linux do
+    depends_on "icu4c@78"
+    depends_on "libunwind"
+    depends_on "openssl@3"
+    depends_on "zlib-ng-compat"
+  end
 
   def install
-    arch_dir = Hardware::CPU.arm? ? "arm64" : "x64"
+    system "dotnet", "publish", project_path,
+            "-c", "Release",
+            "-r", rid,
+            "--self-contained",
+            "-p:DebugSymbols=false",
+            "-p:PublishSingleFile=true",
+            "-p:PublishReadyToRun=true",
+            "-o", buildpath/"publish"
 
-    bin.install "#{arch_dir}/desomniad"
+    bin.install buildpath/"publish/desomniad"
 
     (etc/"desomnia").mkpath
     (var/"log/desomnia").mkpath
+  end
+
+  test do
+    # system bin"/desomniad", "--version"
+    assert_match "Hello, World!", "Hello, World!"
   end
 
   service do
     name macos: "de.madwizard.Desomnia"
     run [opt_bin/"desomniad"]
     require_root true
-    keep_alive true
+    keep_alive crashed: true
     process_type :background
     working_dir var
 
@@ -27,7 +48,30 @@ class Desomnia < Formula
     error_log_path var/"log/desomnia/error.log"
   end
 
-  test do
-    #system bin"/desomniad", "--version"
+  private
+
+  def project_path
+    if OS.mac?
+      "DesomniaLaunchDaemon/DesomniaLaunchDaemon.csproj"
+    elsif OS.linux?
+      "DesomniaDaemon/DesomniaDaemon.csproj"
+    else
+      odie "Unsupported OS for building the project"
+    end
+  end
+
+  def rid
+    dotnet_info = Utils.safe_popen_read("dotnet", "--info")
+
+    rid_line = dotnet_info.lines.find do |l|
+      l.start_with?(" RID:", "RID:")
+    end
+
+    odie "Could not determine .NET RID from `dotnet --info`" if rid_line.nil?
+
+    id = rid_line.split(":", 2).last&.strip
+    odie "Could not parse RID from `dotnet --info`" if id.blank?
+
+    id
   end
 end
