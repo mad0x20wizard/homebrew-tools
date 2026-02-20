@@ -7,9 +7,9 @@ class Desomnia < Formula
 
   depends_on "dotnet" => [:build]
   depends_on "brotli"
+  depends_on "icu4c"
 
   on_linux do
-    depends_on "icu4c@78" # TODO: is this needed?
     depends_on "libunwind"
     depends_on "openssl@3"
     depends_on "zlib-ng-compat"
