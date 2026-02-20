@@ -13,7 +13,7 @@ class Desomnia < Formula
   end
 
   depends_on "dotnet" => [:build]
-  depends_on "brotli"‚
+  depends_on "brotli"
   depends_on "icu4c"
 
   uses_from_macos "libpcap"
