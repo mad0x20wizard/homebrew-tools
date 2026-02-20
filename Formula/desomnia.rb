@@ -5,6 +5,13 @@ class Desomnia < Formula
   sha256 "0b29ef20f142b63ec1cf6cb18238cd5f14e04ff2e19ce89ce8435a6b70f27e40"
   license "GPL-3.0-or-later"
 
+  bottle do
+    root_url "https://ghcr.io/v2/mad0x20wizard/tools"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "0dd026926b5f736300788ec0549d3a8e07ceea4eeed385cc26a5187e0e2d9287"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "640c9fc83444268083592b03aa85caaa2e86f7cf9c3f5ab98b0c5898c9363b3e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "34605926414fca4f2f39a028e918674031dce6a3fd7bc6597fe4c912ebca48ff"
+  end
+
   depends_on "dotnet" => [:build]
   depends_on "brotli"
 
