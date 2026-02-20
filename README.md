@@ -1,4 +1,6 @@
-# Mad0x20wizard Tools
+# Magic Tools
+
+This collection contains some carefully crafted tools that will hopefully make your day-to-day life as a developer a little bit more delightful.  💡
 
 ## How do I install these formulae?
 
@@ -6,13 +8,8 @@
 
 Or `brew tap mad0x20wizard/tools` and then `brew install <formula>`.
 
-Or, in a `brew bundle` `Brewfile`:
+## Available formulae
 
-```ruby
-tap "mad0x20wizard/tools"
-brew "<formula>"
-```
+### [`desomnia`](https://github.com/mad0x20wizard/Desomnia)
 
-## Documentation
-
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
+This is a sleep and resource manager, which can monitor your system to decide when to suspend or wake other systems on your network based on usage.
