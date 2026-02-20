@@ -5,18 +5,11 @@ class Desomnia < Formula
   sha256 "40ce9aa79adbfba1d1eb9833b7c56bce7f4984586868ac24c01f60e3ed215b43"
   license "GPL-3.0-or-later"
 
-  bottle do
-    root_url "https://ghcr.io/v2/mad0x20wizard/tools"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "bdcf081d8d3104f7d90c6a04c314b9a57492b0dc625f663e7b0d84c4133870dd"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "6df53b21ac8ce77d5e1b154f41814dbde033010564c515cdd46d131161a31dca"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8f3f1291b0609646c8daecafe653b30f6611e3d235e6ca382f558ab49ee83ab8"
-  end
-
   depends_on "dotnet" => [:build]
   depends_on "brotli"
 
   on_linux do
-    depends_on "icu4c@78"
+    depends_on "icu4c@78" # TODO: is this needed?
     depends_on "libunwind"
     depends_on "openssl@3"
     depends_on "zlib-ng-compat"
@@ -34,12 +27,33 @@ class Desomnia < Formula
 
     bin.install buildpath/"publish/desomniad"
 
+    install_plugins ["FirewallKnockOperator"]
+  end
+
+  def install_plugins(plugins)
+    plugins.each do |plugin_name|
+      target = buildpath/"publish/plugins/#{plugin_name}"
+
+      system "dotnet", "publish", "plugins/#{plugin_name}/#{plugin_name}.csproj",
+              "-c", "Release",
+              "--no-self-contained",
+              "-p:DebugType=None",
+              "-p:DebugSymbols=false",
+              "-p:PublishSingleFile=false",
+              "-o", target
+
+      (libexec/"plugins"/plugin_name).install Dir[target/"*"]
+    end
+  end
+
+  def post_install
     (etc/"desomnia").mkpath
     (var/"log/desomnia").mkpath
+    (var/"lib/desomnia/plugins").mkpath
   end
 
   test do
-    # system bin"/desomniad", "--version"
+    # system bin"/desomniad", "--version" // TODO: Implement testing
     assert_match "Hello, World!", "Hello, World!"
   end
 
@@ -50,6 +64,13 @@ class Desomnia < Formula
     keep_alive crashed: true
     process_type :background
     working_dir var
+
+    environment_variables DESOMNIA_CONFIG_DIR:       etc/"desomnia",
+                          DESOMNIA_LOGS_DIR:         var/"log/desomnia",
+                          DESOMNIA_USER_PLUGINS_DIR: var/"lib/desomnia/plugins",
+                          DESOMNIA_CORE_PLUGINS_DIR: opt_libexec/"plugins"
+
+    # TODO: remove limit to session type?
 
     log_path var/"log/desomnia/output.log"
     error_log_path var/"log/desomnia/error.log"
