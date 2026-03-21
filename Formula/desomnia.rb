@@ -68,7 +68,7 @@ class Desomnia < Formula
   end
 
   service do
-    name macos: "de.madwizard.Desomnia"
+    name macos: "de.madwizard.Desomnia",
          linux: "desomnia"
     run [opt_bin/"desomniad"]
     require_root true
