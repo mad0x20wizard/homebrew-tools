@@ -81,8 +81,8 @@ class Desomnia < Formula
                           DESOMNIA_USER_PLUGINS_DIR: var/"lib/desomnia/plugins",
                           DESOMNIA_CORE_PLUGINS_DIR: opt_libexec/"plugins"
 
-    log_path var/"log/desomnia/output.log"
-    error_log_path var/"log/desomnia/error.log"
+    log_path macos: var/"log/desomnia/output.log"
+    error_log_path macos: var/"log/desomnia/error.log"
   end
 
   private
