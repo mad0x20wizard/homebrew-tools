@@ -69,6 +69,7 @@ class Desomnia < Formula
 
   service do
     name macos: "de.madwizard.Desomnia"
+         linux: "desomnia"
     run [opt_bin/"desomniad"]
     require_root true
     keep_alive crashed: true
