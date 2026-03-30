@@ -1,8 +1,8 @@
 class Desomnia < Formula
   desc "Daemon for sleep and resource management"
   homepage "https://github.com/mad0x20wizard/Desomnia"
-  url "https://github.com/mad0x20wizard/Desomnia/archive/refs/tags/v3.0.0-alpha50.tar.gz"
-  sha256 "e57b23c4bcd028889069b0b350067c41076131aa762dc968e5b8a4d0b5eb8545"
+  url "https://github.com/mad0x20wizard/Desomnia/archive/refs/tags/v3.0.0-alpha51.tar.gz"
+  sha256 "26998e7dbcdc3cc79df84cc9dd6a3c7bce42c64dab8c2bed615cfcd1614091b7"
   license "GPL-3.0-or-later"
 
   bottle do
