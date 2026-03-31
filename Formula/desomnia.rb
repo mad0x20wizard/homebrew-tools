@@ -7,10 +7,10 @@ class Desomnia < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/mad0x20wizard/tools"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "e5bb0cc23d3ff2e4b00ef2d7cdf6608166ec2868b8d8e0648cc6975277c52be1"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "600511e8bfe4ee74842175e8a7d6d60168c896b2efa3e92a6217da18ba7b2661"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "d9789d4546bea2e6e4bb168c9779d3d3158eb337751ebd49351be316f4c3b720"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "aab3fcace65df83ef5b2eb266b9efa5dd18dfd16c31a24976b20faf16891df8f"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "257326d9c92aa5a9564dd3a100a3e1e54cfab8eeedebe4ad59c796048c4e8a2a"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "e32062a51405a46e75f0bb6a55397f1c6cd8cdbe6cd8e48051670d3ca630e617"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "43bf03777d0588b64b070ce3c41206b18f5f33aafa5857e07fc30fde81c6cbcd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2bdc78c0da58212411ec741fcb47fd0b9c757af1218ecb5e3cde50c794054bfd"
   end
 
   depends_on "dotnet" => [:build]
