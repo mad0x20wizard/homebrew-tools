@@ -7,10 +7,10 @@ class Desomnia < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/mad0x20wizard/tools"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "d72bf3cf2346f9ece8f5dbea88c1fe5722e0cc189d0e13bed19c37180dbeb744"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "a4b75b1e10fd8562abe1b731183e9670fd273abfb8e63c18c85e8b58d8d8412e"
-    sha256 cellar: :any,                 arm64_linux:   "c04d99fb0396cebcbaf49ff28b1d31b74e0721fba755eda06b165d20f5de2b2d"
-    sha256 cellar: :any,                 x86_64_linux:  "6c84142f509b3a74fd3f97e5ee47f229af404a9f6ecc0208c6690f3e231eb124"
+    sha256 cellar: :any, arm64_tahoe:   "d72bf3cf2346f9ece8f5dbea88c1fe5722e0cc189d0e13bed19c37180dbeb744"
+    sha256 cellar: :any, arm64_sequoia: "a4b75b1e10fd8562abe1b731183e9670fd273abfb8e63c18c85e8b58d8d8412e"
+    sha256 cellar: :any, arm64_linux:   "c04d99fb0396cebcbaf49ff28b1d31b74e0721fba755eda06b165d20f5de2b2d"
+    sha256 cellar: :any, x86_64_linux:  "6c84142f509b3a74fd3f97e5ee47f229af404a9f6ecc0208c6690f3e231eb124"
   end
 
   depends_on "dotnet" => [:build]
@@ -57,9 +57,9 @@ class Desomnia < Formula
   end
 
   post_install_steps do
-    mkdir "desomnia", base: :etc
-    mkdir "log/desomnia", base: :var
-    mkdir "lib/desomnia/plugins", base: :var
+    mkdir_p "desomnia", base: :etc
+    mkdir_p "log/desomnia", base: :var
+    mkdir_p "lib/desomnia/plugins", base: :var
   end
 
   test do
