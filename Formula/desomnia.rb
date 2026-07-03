@@ -56,7 +56,7 @@ class Desomnia < Formula
     end
   end
 
-  def post_install
+  post_install_steps do
     (etc/"desomnia").mkpath
     (var/"log/desomnia").mkpath
     (var/"lib/desomnia/plugins").mkpath
