@@ -57,9 +57,9 @@ class Desomnia < Formula
   end
 
   post_install_steps do
-    (etc/"desomnia").mkpath
-    (var/"log/desomnia").mkpath
-    (var/"lib/desomnia/plugins").mkpath
+    mkdir "desomnia", base: :etc
+    mkdir "log/desomnia", base: :var
+    mkdir "lib/desomnia/plugins", base: :var
   end
 
   test do
