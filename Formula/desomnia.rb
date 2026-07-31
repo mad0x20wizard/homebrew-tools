@@ -13,6 +13,18 @@ class Desomnia < Formula
     sha256               x86_64_linux:  "c41d43f68b536df06d014bfa00dab056cb9d078c9e536e95e4b3a1920776d287"
   end
 
+  # macOS installs the NativeAOT ("native") build by default: a single self-contained binary that
+  # needs no .NET runtime and a fraction of the memory. NativeAOT cannot load plugins at runtime,
+  # so the plugins shipped with Desomnia are compiled into the binary instead -- third-party
+  # plugins dropped into var/lib/desomnia/plugins are ignored. Pass --with-plugins for the
+  # framework-based build that loads plugins from disk.
+  #
+  # Linux keeps the framework-based build either way: a NativeAOT binary links against the build
+  # machine's glibc, and glibc is forward-incompatible, so a bottle built on the Ubuntu 24.04
+  # runners (glibc 2.39) would refuse to start on older distributions. Linux users who want the
+  # native flavour install the deb/rpm packages or the "-native" Docker image instead.
+  option "with-plugins", "Build with runtime plugin support instead of NativeAOT (macOS only)"
+
   depends_on "dotnet" => [:build]
   depends_on "brotli"
   depends_on "icu4c"
@@ -26,18 +38,34 @@ class Desomnia < Formula
   end
 
   def install
-    system "dotnet", "publish", project_path,
-            "-c", "Release",
-            "-r", rid,
-            "--self-contained",
-            "-p:DebugSymbols=false",
-            "-p:PublishSingleFile=true",
-            "-p:PublishReadyToRun=true",
-            "-o", buildpath/"publish"
+    if native?
+      # PublishAot is passed on the command line so it is a *global* property: besides driving ILC
+      # it defines DESOMNIA_AOT (see Directory.Build.props), which statically registers the shipped
+      # plugin modules in place of the runtime plugin loader and activates the AOT-only settings in
+      # the project file (trimmer roots, size-optimised ILC). --self-contained, PublishSingleFile
+      # and PublishReadyToRun do not apply to -- and partly conflict with -- an AOT build.
+      system "dotnet", "publish", project_path,
+              "-c", "Release",
+              "-r", rid,
+              "-p:PublishAot=true",
+              "-p:StripSymbols=true",
+              "-o", buildpath/"publish"
 
-    bin.install buildpath/"publish/desomniad"
+      bin.install buildpath/"publish/desomniad"
+    else
+      system "dotnet", "publish", project_path,
+              "-c", "Release",
+              "-r", rid,
+              "--self-contained",
+              "-p:DebugSymbols=false",
+              "-p:PublishSingleFile=true",
+              "-p:PublishReadyToRun=true",
+              "-o", buildpath/"publish"
 
-    install_plugins ["FirewallKnockOperator"]
+      bin.install buildpath/"publish/desomniad"
+
+      install_plugins ["FirewallKnockOperator"]
+    end
   end
 
   def install_plugins(plugins)
@@ -60,6 +88,19 @@ class Desomnia < Formula
     mkdir_p "desomnia", base: :etc
     mkdir_p "log/desomnia", base: :var
     mkdir_p "lib/desomnia/plugins", base: :var
+  end
+
+  def caveats
+    return unless native?
+
+    <<~EOS
+      Desomnia was installed as a self-contained native build. It needs no .NET runtime and uses
+      considerably less memory, but it cannot load plugins at runtime -- the plugins shipped with
+      Desomnia are compiled into the binary, and #{var}/lib/desomnia/plugins is not read.
+
+      To run the build that loads plugins from disk instead:
+        brew reinstall --with-plugins #{full_name}
+    EOS
   end
 
   test do
@@ -88,6 +129,12 @@ class Desomnia < Formula
   end
 
   private
+
+  # NativeAOT is the default on macOS, unless the user opted into runtime plugin support.
+  # See the comment on the "with-plugins" option for why Linux never takes this path.
+  def native?
+    OS.mac? && build.without?("plugins")
+  end
 
   def project_path
     if OS.mac?
