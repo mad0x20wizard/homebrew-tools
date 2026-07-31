@@ -28,12 +28,15 @@ class Desomnia < Formula
   depends_on "dotnet" => [:build]
   depends_on "brotli"
   depends_on "icu4c"
+  # macOS needs this for the native build as well: NativeAOT links the crypto shim into the binary
+  # at build time, so libcrypto/libssl end up as real load commands in the Mach-O instead of being
+  # resolved lazily by the .NET runtime the way the framework-based build does it.
+  depends_on "openssl@3"
 
   uses_from_macos "libpcap"
 
   on_linux do
     depends_on "libunwind"
-    depends_on "openssl@3"
     depends_on "zlib-ng-compat"
   end
 
