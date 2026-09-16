@@ -3,9 +3,6 @@ name: Build Homebrew bottles
 on:
   pull_request:
 
-env:
-  HOMEBREW_NO_SANDBOX_LINUX: 1 # brew install bubblewrap does not work, see https://github.com/orgs/Homebrew/discussions/6862
-
 jobs:
   test-bot:
     strategy:
