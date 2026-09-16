@@ -1,16 +1,16 @@
 class Desomnia < Formula
   desc "Daemon for sleep and resource management"
   homepage "https://github.com/mad0x20wizard/Desomnia"
-  url "https://github.com/mad0x20wizard/Desomnia/archive/refs/tags/v3.2.3.tar.gz"
-  sha256 "2722d6d580ae0c06059c9860acafd9624742af15fb6f6d5fadc15776f17d4644"
+  url "https://github.com/mad0x20wizard/Desomnia/archive/refs/tags/v3.3.0-alpha3.tar.gz"
+  sha256 "f444ba0645b3776030ede16db90d8299e851a6c7a8796568e4addf22ab7f6f59"
   license "GPL-3.0-or-later"
 
   bottle do
     root_url "https://ghcr.io/v2/mad0x20wizard/tools"
-    sha256 cellar: :any, arm64_tahoe:   "f1e35b96fe66c11cc3a724c1c870dfefa4ea82cc98e680a43bb38170fcd836e5"
-    sha256 cellar: :any, arm64_sequoia: "1a902823f7ed2755c044241fc86f25b49d6d339fe2820a825fd082d4405816e0"
-    sha256 cellar: :any, arm64_linux:   "f6868cd01542be61ac4b1f2ccc6836923aedcf390e2c92ce6b49d8db3365c28d"
-    sha256               x86_64_linux:  "c41d43f68b536df06d014bfa00dab056cb9d078c9e536e95e4b3a1920776d287"
+    sha256 cellar: :any, arm64_tahoe:   "ebcd4f5ff0b5b70ca1ff22cd7d17e9f6750286b3fef74af9944b4c25106d4540"
+    sha256 cellar: :any, arm64_sequoia: "473b36e14e6abd936bf1facdcf3733f8695f5826860b81e738637c9cb044871d"
+    sha256 cellar: :any, arm64_linux:   "acbd05b0d4669fd8b4785fa419066ebd5bd6f1bd52e1fa216c0c5d7ca18d5eba"
+    sha256               x86_64_linux:  "f67e2839f0b89af5b134d4183c4f1ba4e40f6493a9e8aaa694a2b6968663991a"
   end
 
   # macOS installs the NativeAOT ("native") build by default: a single self-contained binary that
