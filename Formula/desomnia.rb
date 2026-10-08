@@ -7,10 +7,10 @@ class Desomnia < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/mad0x20wizard/tools"
-    sha256 cellar: :any, arm64_tahoe:   "e051a981749e2d2acc3256258c23fe026bfbdf6b368c99dbdd8392e9ccf6db05"
-    sha256 cellar: :any, arm64_sequoia: "3382c161f018f62d527f162c05989411ed097b89229cb9789973ecefd24ab219"
-    sha256 cellar: :any, arm64_linux:   "ad3fb54f6732b70923f73c86fc31302e3e42f64ec8c155e2802203922395d103"
-    sha256 cellar: :any, x86_64_linux:  "e427ac8ae9e1a2565104d478b8513556b7a333d83e28893be5caee9a65dacb72"
+    sha256 cellar: :any, arm64_tahoe:   "fdda2a8b0bb4057cf35f52a5c3812ebd10e073cbbdf75f1e5bc79d531760249c"
+    sha256 cellar: :any, arm64_sequoia: "d30093282ec094ef42c66d7658483171d3b9ac7427a89164457e17e169c1589f"
+    sha256 cellar: :any, arm64_linux:   "d8ddd8588eca8730c936f1180397517c3e55365f4dccb6ba59288b202e0930bb"
+    sha256 cellar: :any, x86_64_linux:  "b055758074afb6eb517a00e38ebc98b976201cdbdebe82ada29b1b50d0f38865"
   end
 
   # macOS installs the NativeAOT ("native") build by default: a single self-contained binary that
